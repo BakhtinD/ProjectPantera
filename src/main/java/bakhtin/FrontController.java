@@ -7,17 +7,22 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Главный контроллер для папки bakhtin
- * Перенаправляет на страницу с примерами
- */
 @WebServlet({"/bakhtin", "/bakhtin/", "/bakhtin/home"})
 public class FrontController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        // Перенаправляем на страницу basics с объяснениями
-        req.getRequestDispatcher("/WEB-INF/basics.jsp").forward(req, resp);
+        req.setAttribute("name", "user");
+        req.getRequestDispatcher("/WEB-INF/main.jsp").forward(req, resp);
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        String text = req.getParameter("text");
+        req.setAttribute("name", text);
+        req.getRequestDispatcher("/WEB-INF/main.jsp").forward(req, resp);
     }
 }
